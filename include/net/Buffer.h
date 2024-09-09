@@ -51,6 +51,53 @@ public:
         readerIndex_ = kCheapPrepend;
         writerIndex_ = kCheapPrepend;
     }
+
+    std::string GetBufferAllAsString() {
+        size_t len = readableBytes();
+        std::string result(peek(), len);
+        return result;
+    }
+
+    std::string retrieveAllAsString() {
+        return retrieveAsString(readableBytes());
+    }
+
+    std::string retrieveAsString(size_t len) {
+        std::string result(peek(), len);
+        retrieve(len);
+        return result;
+    }
+
+    void ensureWritableBytes(size_t len) {
+        if(writeableBytes() < len) {
+            makeSpace(len);
+        }
+    }
+
+    void append(const std::string &str) {
+        append(str.data(), str.size());
+    }
+
+    void append(const char *data, size_t len) {
+        ensureWritableBytes(len);
+        std::copy(data, data + len, beginWrite());
+        writerIndex_ += len;
+    }
+
+    const char *findCRLF() const {
+        const char *crlf = std::search(peek(), beginWrite(), kCRLF, kCRLF + 2);
+    }
+
+    char *beginWrite() {
+        return begin() + writerIndex_;
+    }
+
+    const char *beginWrite() const {
+        return begin() + writerIndex_;
+    }
+
+    ssize_t readFd(int fd, int *saveErrno);
+    ssize_t writeFd(int fd, int *saveErrno);
 private:
     char *begin() {
         return &(*buffer_.begin());
@@ -61,7 +108,15 @@ private:
     }
 
     void makeSpace(int len) {
-        
+        if(writeableBytes() + prependableBytes() < len + kCheapPrepend) {
+            buffer_.resize(writerIndex_ + len);
+        }
+        else {
+            size_t readable = readableBytes();
+            std::copy(begin() + readerIndex_, begin() + writerIndex_, begin() + kCheapPrepend);
+            readerIndex_ = kCheapPrepend;
+            writerIndex_ = readerIndex_ + readable;
+        }
     }
 
 
