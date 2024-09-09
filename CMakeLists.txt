@@ -8,11 +8,13 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/include/base
     ${PROJECT_SOURCE_DIR}/include/net    
     ${PROJECT_SOURCE_DIR}/include/logger
+    ${PROJECT_SOURCE_DIR}/include/timer
 )
 
 aux_source_directory(${PROJECT_SOURCE_DIR}/src/base SRC_BASE)
 aux_source_directory(${PROJECT_SOURCE_DIR}/src/net SRC_NET)
 aux_source_directory(${PROJECT_SOURCE_DIR}/src/logger SRC_LOGGER)
+aux_source_directory(${PROJECT_SOURCE_DIR}/src/timer SRC_TIMER)
 
 
 set(CXX_FLAGS
