@@ -84,11 +84,11 @@ const char *getErrnoMsg(int saveErrno);
 */
 
 #define LOG_DEBUG if(logLevel() <= Logger::DEBUG) \
-    Logger(__FILE__, __LINE__, Logger::DEBUG, __func__).stream();
+    Logger(__FILE__, __LINE__, Logger::DEBUG, __func__).stream()
 #define LOG_INFO if(logLevel() <= Logger::INFO) \
-    Logger(__FILE__, __LINE__).stream();
-#define LOG_WARN Logger(__FILE__, __LINE__, Logger::WARN).stream();
-#define LOG_ERROR Logger(__FILE__, __LINE__, Logger::ERROR).stream();
-#define LOG_FATAL Logger(__FILE__, __LINE__, Logger::FATAL).stream();
+    Logger(__FILE__, __LINE__).stream()
+#define LOG_WARN Logger(__FILE__, __LINE__, Logger::WARN).stream()
+#define LOG_ERROR Logger(__FILE__, __LINE__, Logger::ERROR).stream()
+#define LOG_FATAL Logger(__FILE__, __LINE__, Logger::FATAL).stream()
 
 #endif
