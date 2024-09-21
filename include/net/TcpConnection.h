@@ -25,7 +25,7 @@ public:
                 const InetAddress &peerAddr);
     ~TcpConnection();
 
-    EventLoop *getloop() const { return loop_; }
+    EventLoop *getLoop() const { return loop_; }
     const std::string &name() const { return name_; }
     const InetAddress &localAddr() const { return localAddr_; }
     const InetAddress &peerAddr() const { return peerAddr_; }
@@ -49,13 +49,16 @@ public:
     void setWriteCompleteCallback(const WriteCompleteCallback &cb) {
         writeCompleteCallback_ = cb;
     }
+    void setCloseCallback(const CloseCallback &cb) {
+        closeCallback_ = cb;
+    }
     void setHighWaterMarkCallback(const HighWaterMarkCallback &cb) {
         highWaterMarkCallback_ = cb;
     }
 
     //TcpServer调用的函数
     void connectionEstablished();   //连接建立函数
-    void connectDestrooyed();       //连接销毁函数
+    void connectDestroyed();       //连接销毁函数
 
 private:
     enum StateE {

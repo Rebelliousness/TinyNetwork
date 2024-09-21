@@ -143,7 +143,7 @@ void TcpConnection::connectionEstablished() {
     connectionCallback_(shared_from_this());
 }
 
-void TcpConnection::connectDestrooyed() {
+void TcpConnection::connectDestroyed() {
     if(state_ == kConnected) {
         setState(kDisconnected);
         channel_ -> disableAll();
